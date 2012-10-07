@@ -7,7 +7,7 @@ I ripped FancyTabBar out of QtCreator's codebase on 2012-10-06 and
 
 This is what the FancyTabBar looks like on all four edges:
 
-![screenshot](screenshot.png "Screenshot")
+![screenshot](https://raw.github.com/benadler/FancyTabBar/master/screenshot.png "Screenshot")
 
 Concerning the license, please see the qtcreator source and leave me alone.
 
