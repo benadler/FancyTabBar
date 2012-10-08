@@ -45,7 +45,7 @@ class FancyTabBar : public QWidget
     Q_OBJECT
 
 public:
-    enum struct TabBarPosition { Top, Bottom, Left, Right };
+    enum struct TabBarPosition { Above, Below, Left, Right };
 
     FancyTabBar(const TabBarPosition position, QWidget *parent = 0);
     ~FancyTabBar();
@@ -101,7 +101,7 @@ private:
     QPoint getCorner(const QRect& rect, const Corner corner) const;
 
     // You can pass this method a QRect and tell it to move its edges to the outside (+)
-    // or inside (-) of the rect. For example, with a TabBar at the Top,
+    // or inside (-) of the rect. For example, with a TabBar at the Above,
     //
     //      adjustRect(QRect(0,0,10,10), 1, 2, 3, -4)  // thats a 10 by 10 QRect, starting at 0/0
     //

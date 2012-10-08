@@ -46,7 +46,7 @@ FancyTabBar::FancyTabBar(const TabBarPosition position, QWidget *parent)
     mHoverIndex = -1;
     mCurrentIndex = -1;
 
-    if(mPosition == TabBarPosition::Top || mPosition == TabBarPosition::Bottom)
+    if(mPosition == TabBarPosition::Above || mPosition == TabBarPosition::Below)
     {
         setMinimumHeight(qMax(2 * m_rounding, 40));
         setMaximumHeight(tabSizeHint(false).height());
@@ -95,14 +95,14 @@ QSize FancyTabBar::tabSizeHint(bool minimum) const
 
 QPoint FancyTabBar::getCorner(const QRect& rect, const Corner corner) const
 {
-    if(mPosition == TabBarPosition::Top)
+    if(mPosition == TabBarPosition::Above)
     {
         if(corner == Corner::OutsideBeginning) return rect.topLeft();
         if(corner == Corner::OutsideEnd) return rect.topRight();
         if(corner == Corner::InsideBeginning) return rect.bottomLeft();
         if(corner == Corner::InsideEnd) return rect.bottomRight();
     }
-    else if(mPosition == TabBarPosition::Bottom)
+    else if(mPosition == TabBarPosition::Below)
     {
         if(corner == Corner::OutsideBeginning) return rect.bottomLeft();
         if(corner == Corner::OutsideEnd) return rect.bottomRight();
@@ -130,8 +130,8 @@ QPoint FancyTabBar::getCorner(const QRect& rect, const Corner corner) const
 
 QRect FancyTabBar::adjustRect(const QRect& rect, const qint8 offsetOutside, const qint8 offsetInside, const qint8 offsetBeginning, const qint8 offsetEnd) const
 {
-    if(mPosition == TabBarPosition::Top) return rect.adjusted(-offsetBeginning, -offsetOutside, offsetEnd, offsetInside);
-    else if(mPosition == TabBarPosition::Bottom) return rect.adjusted(-offsetBeginning, -offsetInside, -offsetBeginning, offsetOutside);
+    if(mPosition == TabBarPosition::Above) return rect.adjusted(-offsetBeginning, -offsetOutside, offsetEnd, offsetInside);
+    else if(mPosition == TabBarPosition::Below) return rect.adjusted(-offsetBeginning, -offsetInside, -offsetBeginning, offsetOutside);
     else if(mPosition == TabBarPosition::Left) return rect.adjusted(-offsetOutside, -offsetBeginning, offsetInside, offsetEnd);
     else if(mPosition == TabBarPosition::Right) return rect.adjusted(-offsetInside, -offsetBeginning, offsetOutside, offsetEnd);
 
@@ -142,8 +142,8 @@ QRect FancyTabBar::adjustRect(const QRect& rect, const qint8 offsetOutside, cons
 // Same with a point: + means towards Outside/End, - means towards Inside/Beginning
 QPoint FancyTabBar::adjustPoint(const QPoint& point, const qint8 offsetInsideOutside, const qint8 offsetBeginningEnd) const
 {
-    if(mPosition == TabBarPosition::Top) return point + QPoint(offsetBeginningEnd, -offsetInsideOutside);
-    else if(mPosition == TabBarPosition::Bottom) return point + QPoint(offsetBeginningEnd, offsetInsideOutside);
+    if(mPosition == TabBarPosition::Above) return point + QPoint(offsetBeginningEnd, -offsetInsideOutside);
+    else if(mPosition == TabBarPosition::Below) return point + QPoint(offsetBeginningEnd, offsetInsideOutside);
     else if(mPosition == TabBarPosition::Left) return point + QPoint(-offsetInsideOutside, offsetBeginningEnd);
     else if(mPosition == TabBarPosition::Right) return point + QPoint(offsetInsideOutside, offsetBeginningEnd);
 
@@ -248,7 +248,7 @@ QSize FancyTabBar::sizeHint() const
     QSize sh = tabSizeHint();
 //    return QSize(sh.width(), sh.height() * mAttachedTabs.count());
 
-    if(mPosition == TabBarPosition::Top || mPosition == TabBarPosition::Bottom)
+    if(mPosition == TabBarPosition::Above || mPosition == TabBarPosition::Below)
         return QSize(sh.width() * mAttachedTabs.count(), sh.height());
     else
         return QSize(sh.width(), sh.height() * mAttachedTabs.count());
@@ -259,7 +259,7 @@ QSize FancyTabBar::minimumSizeHint() const
     QSize sh = tabSizeHint(true);
 //    return QSize(sh.width(), sh.height() * mAttachedTabs.count());
 
-    if(mPosition == TabBarPosition::Top || mPosition == TabBarPosition::Bottom)
+    if(mPosition == TabBarPosition::Above || mPosition == TabBarPosition::Below)
         return QSize(sh.width() * mAttachedTabs.count(), sh.height());
     else
         return QSize(sh.width(), sh.height() * mAttachedTabs.count());
@@ -269,7 +269,7 @@ QRect FancyTabBar::tabRect(int index) const
 {
     QSize sh = tabSizeHint();
 
-    if(mPosition == TabBarPosition::Top || mPosition == TabBarPosition::Bottom)
+    if(mPosition == TabBarPosition::Above || mPosition == TabBarPosition::Below)
     {
         if (sh.width() * mAttachedTabs.count() > width())
             sh.setWidth(width() / mAttachedTabs.count());
@@ -335,7 +335,7 @@ void FancyTabBar::paintTab(QPainter *painter, int tabIndex) const
         painter->fillRect(adjustRect(rect, 0, 0, 0, -1), grad);
         painter->restore();
 
-        // shadows (the black lines immediately before/after "active"selected"-background)
+        // shadows (the black lines immediately before/after (active && selected)-backgrounds)
         painter->setPen(QColor(0, 0, 0, 110));
         painter->drawLine(adjustPoint(getCorner(rect, Corner::OutsideBeginning), 0, -1), adjustPoint(getCorner(rect, Corner::InsideBeginning), 0, -1));
         painter->drawLine(getCorner(rect, Corner::OutsideEnd), getCorner(rect, Corner::InsideEnd));
@@ -395,7 +395,7 @@ void FancyTabBar::paintTab(QPainter *painter, int tabIndex) const
         painter->fillRect(rect, grad);
         painter->setPen(QPen(grad, 1.0));
 
-        if(mPosition == TabBarPosition::Top || mPosition == TabBarPosition::Bottom)
+        if(mPosition == TabBarPosition::Above || mPosition == TabBarPosition::Below)
         {
             painter->drawLine(rect.topLeft(), rect.bottomLeft());
             painter->drawLine(rect.topRight(), rect.bottomRight());

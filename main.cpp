@@ -4,10 +4,10 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    DemoWindow mwTop(FancyTabBar::TabBarPosition::Top);
+    DemoWindow mwTop(FancyTabBar::TabBarPosition::Above);
     mwTop.show();
 
-    DemoWindow mwBottom(FancyTabBar::TabBarPosition::Bottom);
+    DemoWindow mwBottom(FancyTabBar::TabBarPosition::Below);
     mwBottom.show();
 
     DemoWindow mwLeft(FancyTabBar::TabBarPosition::Left);

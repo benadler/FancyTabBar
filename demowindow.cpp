@@ -14,8 +14,8 @@ DemoWindow::DemoWindow(const FancyTabBar::TabBarPosition position, QWidget *pare
 
     setCentralWidget(ftb);
 
-    if(position == FancyTabBar::TabBarPosition::Top) setWindowTitle("Top");
-    if(position == FancyTabBar::TabBarPosition::Bottom) setWindowTitle("Bottom");
+    if(position == FancyTabBar::TabBarPosition::Above) setWindowTitle("Top");
+    if(position == FancyTabBar::TabBarPosition::Below) setWindowTitle("Bottom");
     if(position == FancyTabBar::TabBarPosition::Left) setWindowTitle("Left");
     if(position == FancyTabBar::TabBarPosition::Right) setWindowTitle("Right");
 }
