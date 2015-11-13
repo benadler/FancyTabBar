@@ -31,7 +31,6 @@
 #include <stylehelper.h>
 
 #include <QMouseEvent>
-#include <QWindowsStyle>
 #include <QPainter>
 #include <QColor>
 #include <QStackedLayout>
@@ -59,7 +58,6 @@ FancyTabBar::FancyTabBar(const TabBarPosition position, QWidget *parent)
         setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     }
 
-    setStyle(new QWindowsStyle);
     setAttribute(Qt::WA_Hover, true);
     setFocusPolicy(Qt::NoFocus);
     setMouseTracking(true); // Needed for hover events
@@ -71,7 +69,6 @@ FancyTabBar::FancyTabBar(const TabBarPosition position, QWidget *parent)
 
 FancyTabBar::~FancyTabBar()
 {
-    delete style();
 }
 
 QSize FancyTabBar::tabSizeHint(bool minimum) const
