@@ -85,7 +85,7 @@ QSize FancyTabBar::tabSizeHint(bool minimum) const
         if (width > maxLabelwidth)
             maxLabelwidth = width;
     }
-    int iconHeight = minimum ? 0 : 32;
+    int iconHeight = minimum ? 0 : 40;
 
     return QSize(qMax(width, maxLabelwidth + 4), iconHeight + spacing + fm.height());
 }
@@ -435,6 +435,21 @@ void FancyTabBar::setTabEnabled(int index, bool enable)
 
     if (index < mAttachedTabs.size() && index >= 0) {
         mAttachedTabs[index]->enabled = enable;
+	/*	During constructor there was no tabs attached which caused a limit in tab dimensions by the call 
+	  to setMaximumHeight and setMaximumWidth.
+	  when attached tabs have texts demanding more space than the previous limit setup in constructor, 
+	  this caused the text to be truncated.
+	  By updating setMaximumWidth and setMaximumHeight during setTabEnabled calls will keep space 
+	  allocation dynamic enough to grow an shrink tabbar as needed.						
+	  And beware that QFontMetrics doesn't take into account \n characters inside the strings.		*/
+	if(mPosition == TabBarPosition::Above || mPosition == TabBarPosition::Below)
+	{
+	  setMaximumHeight(tabSizeHint(false).height()); 
+	}
+	else
+	{
+	  setMaximumWidth(tabSizeHint(false).width()); 
+	}
         update(tabRect(index));
     }
 }
